@@ -4,13 +4,12 @@
 // University of Vienna
 
 bootstrap();
-var equals = {};
 
 function bootstrap(){
 	// injects html div and infobar into webpage
 	var imgURL  =  chrome.extension.getURL("ajax-loader.gif");
 	$('<div id = "ticker"></div>').insertBefore('#siteSub');
-	$('#ticker').append('<img id = "ajaxloader" src = "'+imgURL+'	"/>');
+	$('#ticker').append('<img id = "ajaxloader" src = "' + imgURL + '	"/>');
 	$('#ticker').append('<div id = "pfajax"><span id = "numpend">0</span> pending requests</div>');
 	$('#ticker').append('<span id = "pfinfo"><ul id="infolist"><li id="liupdates">No Updates</li><li id="liequals">No equals</li></ul></span>');
 	$('<div id = "pfdetail"></div>').insertBefore('#mw-content-text');
@@ -21,10 +20,17 @@ function bootstrap(){
 	});
 	$(document).on("click", ".showsd", function() {
 		var id = $(this	).attr('id').replace(/showsd/, '');
-		$("#sd"+id).slideToggle();
+		$("#sd" + id).slideToggle();
 		$(this).text($(this).text() == 'show structured data' ? 'hide structured data' : 'show structured data');
 	});
-	start();
+	
+	getSettings();
+}
+
+function getSettings(){
+	chrome.storage.sync.get({
+			server: 'http://example.com'},
+		start);
 }
 
 function extractResource(url){
@@ -38,14 +44,14 @@ function extractResource(url){
 	return resource;
 }
 
-function start(){
-		
+function start(config){
 	resource = extractResource(document.URL);
-	rURL = "http://localhost:8080/get?article="+resource;
+	rURL = config.server + "/get?article=" + resource;
+	console.log(rURL);
 
 	//if resource timestamp of last update exists in local storage add timestamp to request URL
 	if(localStorage[resource]){
-		rURL += "&last="+localStorage[resource];
+		rURL += "&last=" + localStorage[resource];
 	}
 	
 	console.log("Searching equals @: ",rURL);
@@ -57,16 +63,16 @@ function start(){
 		url: rURL,
 		dataType: "xml",
 	}).done(function( data ) {
-		//updateFE(data)
+		updateFE(data, config);
 		console.log("get?article request done");
-		updatePendingTicker();
+		updatePendingTicker(config);
 	})
     .fail(function( jqxhr, textStatus, error ) {
 		var err  =  textStatus + ", " + error;
 		console.log("Get Request Failed: " + err );
 	});
 	
-	updatePendingTicker();
+	updatePendingTicker(config);
 
 }
 ///Source http://stackoverflow.com/questions/1219860/html-encoding-in-javascript-jquery
@@ -106,13 +112,13 @@ function extractSD(data,id){
 	return new Array("","");
 }
 
-function updateFE(data){
+function updateFE(data, config){
 
 	//updates the frontend (2 divs: pfinfo, pfdetail)
 	console.log("updating frontend");
 	
 	//converting xml to jquery object
-	$xml  =  $( data );
+	$xml = $( data );
 	num_ds = 0;
 	num_ds_completed = 0;
 	$xml.find('datasource').each(function(dsindex){
@@ -195,15 +201,15 @@ function updateFE(data){
 
 	// setting update/equals ticker
 	output = "0 of ?";
-	if (num_ds>0){ //if return value is integer
+	if (num_ds > 0){ //if return value is integer
 		output = (num_ds-num_ds_completed) + " of " + num_ds;
 	}
 	$('#numpend').text(output);
-	if(num_ds_completed<num_ds || num_ds === 0){ //if no datasources fetched, wait
+	if(num_ds_completed < num_ds || num_ds === 0){ //if no datasources fetched, wait
 		$('#ajaxloader').css("display","inline");
 		console.log("recalling ajax call");
 		setTimeout(function(){
-			updatePendingTicker();
+			updatePendingTicker(config);
 		}, (5000));
 	}else{
 		$('#ajaxloader').hide();
@@ -223,7 +229,7 @@ function setCounter(){
 		$('#noupdates').hide();
 		$('#dismissbtn').show();
     }
-    if (numequals>0){
+    if (numequals > 0){
 		$('#noequals').hide();
     }
     
@@ -246,20 +252,21 @@ function setCounter(){
 		$("#pfdetail").slideUp();
 		$('#ticker').removeClass("pointer");
 	}else{
+		$('#ticker').addClass("pointer");
 		$("#pfinfo").click(function(){$('#pfdetail').slideToggle();});
 	}
-	if (numupdates>1){
+	if (numupdates > 1){
 		$("#liupdates").text(numupdates+" updates found!").click(function(){$('#pfdetail');});
 	}
-	if (numequals>1){
+	if (numequals > 1){
 		$("#liequals").text(numequals+" equals found!").click(function(){$('#pfdetail');});
 	}
 }
 
-function updatePendingTicker(){
+function updatePendingTicker(config){
 	
 	resource = extractResource(document.URL);
-	rURL = "http://localhost:8080/live?article="+resource;
+	rURL = config.server + "/live?article=" + resource;
 
 	//if resource timestamp of last update exists in local storage add timestamp to request URL
 	if(localStorage[resource]){
@@ -271,7 +278,7 @@ function updatePendingTicker(){
 		url: rURL,
 		dataType: "xml",
 	}).done(function( data ) {
-		updateFE(data);
+		updateFE(data,config);
 	})
     .fail(function( jqxhr, textStatus, error ) {
 		var err  =  textStatus + ", " + error;

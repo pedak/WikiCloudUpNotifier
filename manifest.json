@@ -10,16 +10,17 @@
     "default_title": "ProFuse"
   },
   "permissions" : [
-    "tabs", "http://*/*", "https://*/*"
+    "tabs", "http://*/*", "https://*/*", "storage"
   ],
   "content_scripts": [
-      {
-		"matches": ["http://en.wikipedia.org/wiki/*"],
-        "css": ["style.css"],
-        "js": ["jquery-1.10.2.min.js", "jquery-ui-1.10.3.custom.min.js", "content.js"]
-      }
-    ],
-    "web_accessible_resources": [
-       "jquery-1.10.2.min.map", "ajax-loader.gif"
-     ]
+    {
+      "matches": ["http://en.wikipedia.org/wiki/*"],
+      "css": ["style.css"],
+      "js": ["jquery-1.10.2.min.js", "jquery-ui-1.10.3.custom.min.js", "content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "jquery-1.10.2.min.map", "ajax-loader.gif"
+  ],
+  "options_page": "options.html"
 }

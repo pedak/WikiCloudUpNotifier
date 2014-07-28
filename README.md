@@ -9,6 +9,12 @@ Install Chrome-Addon
 - Select downloaded folder
 - Done
 
+Setup Chrome-Addon
+--------
+- Open Tools -> Extensions -> Wi-Cloud-Update-Notifier
+- Options
+- Enter URL of PF-Server e.g. http://example.com:8080 (do not forget http at the beginning)
+
 
 Enjoy to be informed on new updates on equivalent resources of the current Wikipedia article.
 
