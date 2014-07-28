@@ -1,0 +1,55 @@
+#pfinfo{
+	font-weight:bold;
+}
+#ticker{
+	position: absolute;
+	z-index: 1000;
+	padding: 5px;
+	background-color: white;
+	border: 1px solid #000000;
+	top: -54px;
+	display: block !important;
+	right:0;
+	width:200px;
+}
+#pfdetail{
+	margin:15px 0;
+	background-color:white;
+	border:1px solid #000000;
+	padding: 15px;
+	display:none;
+}
+
+#ajaxloader{
+	display:none;
+	float:right;
+}
+
+.pointer{
+	cursor:pointer;
+}
+#pfdetail h3{
+	display:inline;
+}
+#pfdetail button{
+	margin-left:15px;
+}
+.showdiff{
+	cursor:pointer;
+}
+
+#pfajax{
+	width:100%;
+}
+#resultsdiv h3{
+	display:block;
+}
+.ml10{
+	margin-left:10px;
+}
+.label{
+	font-weight:bold;
+}
+#dismissbtn{
+	display:none;
+}

@@ -1,4 +1,4 @@
-PF-Wiki
+PF-Wikipedia-Update-Notifier
 ======
 
 Wikipedia ProFuse Adapter v2
