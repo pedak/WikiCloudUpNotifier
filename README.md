@@ -3,11 +3,16 @@ PF-Wikipedia-Cloud-Update-Notifier
 
 Install Chrome-Addon
 --------
-- Download Files
+- Download Files: https://github.com/pedak/WikiCloudUpNotifier/archive/master.zip
 - Open Chrome
-- Tools -> Extensions -> Load unpacked extensions
+- Tools -> Extensions
+- Enable Developer Mode
+- Load unpacked extension...
 - Select downloaded folder
-- Done
+- Open Options
+- Set URL of WikiCloudUpServer
+- Start editing articles in wikipedia: e.g. http://en.wikipedia.org/wiki/Brno
+
 
 Setup Chrome-Addon
 --------
