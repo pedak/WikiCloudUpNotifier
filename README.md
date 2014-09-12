@@ -9,9 +9,6 @@ Install Chrome-Addon
 - Enable Developer Mode
 - Load unpacked extension...
 - Select downloaded folder
-- Open Options
-- Set URL of WikiCloudUpServer
-- Start editing articles in wikipedia: e.g. http://en.wikipedia.org/wiki/Brno
 
 
 Setup Chrome-Addon
