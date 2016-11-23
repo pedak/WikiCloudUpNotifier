@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>FactCheck Popup</title>
+		<link href="normalize.css" rel="stylesheet" type="text/css">
+		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="style.css" rel="stylesheet" type="text/css">
+
+	</head>
+	<body>
+		<div id="container">
+	  		<div id="notbox" class="tab"></div>
+			<div id="details">
+				<div id="header" style="color:white !important">
+					<span class="glyphicon glyphicon-chevron-left" id="back"></span><span>FactCheck</span><span id="settingsbtn" style="top:10px;right:5px;position:absolute" class="glyphicon glyphicon-cog"></span>
+				</div>
+				<div id="equals" class="tab detailbox"><div class="subheader">Equal facts</div><div class="innerbox" id="equalsbox"></div></div>
+				<div id="new" class="tab detailbox"><div class="subheader">New facts <small>(missing on current site)</small></div><div class="innerbox" id="newbox"></div></div>
+				<div id="missing" class="tab detailbox"><div class="subheader">Missing facts <small>(missing on remote site)</small></div><div class="innerbox" id="missingbox"></div></div>
+				<div id="conflicting" class="tab detailbox"><div class="subheader">Conflicting facts</div><div class="innerbox" id="conflictingbox"></div></div>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery-1.10.2.min.js"></script>
+	<script src="popup.js"></script>
+  </body>
+</html>

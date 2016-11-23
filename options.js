@@ -1,5 +1,5 @@
-// ProFuse Wikipedia Adapter 
-// v2.01
+// FactCheck
+// v0.1
 // Peter Kalchgruber
 // University of Vienna
 // Source: https://developer.chrome.com/extensions/options
@@ -24,7 +24,7 @@ function save_options() {
 // stored in chrome.storage.
 function restore_options() {
   chrome.storage.sync.get({
-    server: 'http://example.com',
+    server: 'https://fcheck.mminf.univie.ac.at/get',
   }, function(items) {
     document.getElementById('server').value = items.server;
   });
