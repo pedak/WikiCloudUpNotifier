@@ -51,20 +51,24 @@ function processStrucData(userid, server){
                 console.log(response);
             });
             totalnums = {eqfacts:0, conffacts:0, newfacts:0, missingfacts:0};
-            $.each(data, function(index, val){ //for each resultset. num resultssets = num equal resources
-                totalnums.eqfacts += val.data.eqfacts.length;
-                totalnums.conffacts += val.data.conffacts.length;
-                totalnums.newfacts += val.data.newfacts.length;
-                totalnums.missingfacts += val.data.missingfacts.length;
-            });
-            sn = tabId+'totalnums';
-            var a = 'totalnums';
-            obj={};
-            obj[tabId+a] = totalnums;
-            chrome.storage.local.set(obj);
-            chrome.extension.sendMessage("enable_icon", function(response){
-                console.log(response);
-            });
+            if (data.status){
+                console.log("no eqs found");
+            }else{
+                $.each(data, function(index, val){ //for each resultset. num resultssets = num equal resources
+                    totalnums.eqfacts += val.data.eqfacts.length;
+                    totalnums.conffacts += val.data.conffacts.length;
+                    totalnums.newfacts += val.data.newfacts.length;
+                    totalnums.missingfacts += val.data.missingfacts.length;
+                });
+                sn = tabId+'totalnums';
+                var a = 'totalnums';
+                obj={};
+                obj[tabId+a] = totalnums;
+                chrome.storage.local.set(obj);
+                chrome.extension.sendMessage("enable_icon", function(response){
+                    console.log(response);
+                });
+            }
         });
     })
     .fail(function(data){

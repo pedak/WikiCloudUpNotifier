@@ -9,7 +9,7 @@
     "scripts": ["background.js", "js/jquery-1.10.2.min.js"]
   },
   "page_action": {
-    "default_icon": "pf-icon.png",
+    "default_icon": "img/fc-icon128.png",
     "default_title": "FactCheck",
     "css": ["style.css", "css/bootstrap.min.css"],
     "default_popup": "popup.html"
@@ -27,5 +27,8 @@
   "web_accessible_resources": [
     "js/jquery-1.10.2.min.map"
   ],
-  "options_page": "options.html"
+  "options_page": "options.html",
+  "icons":{
+      "128": "img/fc-icon128.png" 
+  }
 }
