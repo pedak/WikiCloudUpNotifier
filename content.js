@@ -17,6 +17,7 @@ function bootstrap(){
             });
         }
     });
+
     //chrome.storage.local.set({'resultsets': null});
 }
 
@@ -33,48 +34,59 @@ function getRandomToken() {
 
 
 function processStrucData(userid, server){
-    microdata = getMicrodata();
-    jsondata = getJSONdata();
-    $.ajax({
-        method: "POST",
-        dataType: "json",
-        url: server,
-        data: JSON.stringify({ microdata: microdata, jsondata : jsondata, source : window.location.href, userid: userid })
-    })
-    .done(function( data ) {
-        chrome.extension.sendMessage({ type: 'getTabId' }, function(res) {
-            tabId = res.tabId;
-            obj={};
-            obj[tabId + 'resultsets'] = data;
-            chrome.storage.local.set(obj);
-            chrome.runtime.sendMessage({mode: "setresults", results: data}, function(response){
-                console.log(response);
-            });
-            totalnums = {eqfacts:0, conffacts:0, newfacts:0, missingfacts:0};
-            if (data.status){
-                console.log("no eqs found");
-            }else{
-                $.each(data, function(index, val){ //for each resultset. num resultssets = num equal resources
-                    totalnums.eqfacts += val.data.eqfacts.length;
-                    totalnums.conffacts += val.data.conffacts.length;
-                    totalnums.newfacts += val.data.newfacts.length;
-                    totalnums.missingfacts += val.data.missingfacts.length;
-                });
-                sn = tabId+'totalnums';
-                var a = 'totalnums';
+    data = getJSONdata();
+    console.log("json: ", data);
+    if (data === null){
+        data = converter.convert();
+        console.log("micro: ", data);
+    }
+
+
+    if (data !== null){
+        $.ajax({
+            method: "POST",
+            dataType: "json",
+            url: server,
+            data: JSON.stringify({ data: data, source : window.location.href, userid: userid })
+        })
+        .done(function( data ) {
+            chrome.extension.sendMessage({ type: 'getTabId' }, function(res) {
+                tabId = res.tabId;
                 obj={};
-                obj[tabId+a] = totalnums;
+                obj[tabId + 'resultsets'] = data;
                 chrome.storage.local.set(obj);
-                chrome.extension.sendMessage("enable_icon", function(response){
+                chrome.runtime.sendMessage({mode: "setresults", results: data}, function(response){
                     console.log(response);
                 });
-            }
+                totalnums = {eqfacts:0, conffacts:0, newfacts:0, missingfacts:0};
+                if (data.status){
+                    console.log("no eqs found");
+                }else{
+                    $.each(data, function(index, val){ //for each resultset. num resultssets = num equal resources
+                        totalnums.eqfacts += Object.keys(val.equals).length;
+                        totalnums.conffacts += Object.keys(val.conflicting).length; 
+                        totalnums.newfacts += Object.keys(val.new).length;
+                        totalnums.missingfacts += Object.keys(val.missing).length;
+
+                    });
+                    sn = tabId+'totalnums';
+                    var a = 'totalnums';
+                    obj={};
+                    obj[tabId+a] = totalnums;
+                    chrome.storage.local.set(obj);
+                    chrome.extension.sendMessage("enable_icon", function(response){
+                        console.log(response);
+                    });
+                }
+            });
+        })
+        .fail(function(data){
+            console.log("Some error occured! " + data.statusText);
+            console.log(data);
         });
-    })
-    .fail(function(data){
-        console.log("Some error occured! " + data.statusText);
-        console.log(data);
-    });
+    }else{
+        console.log("no data found. I will rest for a while!");
+    }
 }
 
 function getJSONdata(){
@@ -82,7 +94,7 @@ function getJSONdata(){
     if(rawdata){
         return jQuery.parseJSON(rawdata);
     }
-    return "";
+    return null;
 }
 
 function getMicrodata(){

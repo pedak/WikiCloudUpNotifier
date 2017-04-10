@@ -21,7 +21,7 @@
     {
       "matches": ["file:///*/*", "http://*/*", "https://*/*"],
 //      "css": ["style.css", "normalize.css"],
-      "js": ["js/jquery-1.10.2.min.js", "js/jquery-ui-1.10.3.custom.min.js", "js/jquery.microdata.js", "content.js"]
+      "js": ["js/jquery-1.10.2.min.js", "js/jquery-ui-1.10.3.custom.min.js", "js/jquery.microdata.js", "js/microdata-to-jsonld.js", "content.js"]
     }
   ],
   "web_accessible_resources": [
