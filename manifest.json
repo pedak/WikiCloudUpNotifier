@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "FactCheck",
+  "name": "IdaFix",
   "description": "Helps finding and getting rid of conflicting data in the Web",
-  "version": "0.1",
+  "version": "0.1.1",
 
   "background": {
     "persistent": false,
@@ -20,7 +20,6 @@
   "content_scripts": [
     {
       "matches": ["file:///*/*", "http://*/*", "https://*/*"],
-//      "css": ["style.css", "normalize.css"],
       "js": ["js/jquery-1.10.2.min.js", "js/jquery-ui-1.10.3.custom.min.js", "js/jquery.microdata.js", "js/microdata-to-jsonld.js", "content.js"]
     }
   ],

@@ -5,9 +5,9 @@
 
 bootstrap();
 function bootstrap(){
-    chrome.storage.sync.get({server: 'https://fcheck.mminf.univie.ac.at/get', userid: null}, function(items){
+    chrome.storage.sync.get({server: 'https://fcheck.mminf.univie.ac.at', userid: null}, function(items){
         var userid = items.userid;
-        var server = items.server;
+        var server = items.server+"/get";
         if (userid) {
             processStrucData(userid, server);
         } else {
