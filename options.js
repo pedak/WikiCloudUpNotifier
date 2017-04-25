@@ -8,8 +8,10 @@
 // Saves options to chrome.storage
 function save_options() {
   var server = document.getElementById('server').value;
+  var disabled = document.getElementById('disabled').checked;
   chrome.storage.sync.set({
     server: server,
+    disabled: disabled,
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -24,9 +26,13 @@ function save_options() {
 // stored in chrome.storage.
 function restore_options() {
   chrome.storage.sync.get({
-    server: 'https://fcheck.mminf.univie.ac.at/get',
+    server: 'https://fcheck.mminf.univie.ac.at',
+    disabled: false,
   }, function(items) {
     document.getElementById('server').value = items.server;
+    if (items.disabled == true){
+      document.getElementById('disabled').checked = true;
+  }
   });
 }
 document.addEventListener('DOMContentLoaded', restore_options);

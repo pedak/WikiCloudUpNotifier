@@ -5,16 +5,21 @@
 
 bootstrap();
 function bootstrap(){
-    chrome.storage.sync.get({server: 'https://fcheck.mminf.univie.ac.at', userid: null}, function(items){
+    chrome.storage.sync.get({server: 'https://fcheck.mminf.univie.ac.at', userid: null, disabled: null}, function(items){
         var userid = items.userid;
         var server = items.server+"/get";
-        if (userid) {
-            processStrucData(userid, server);
-        } else {
-            userid = getRandomToken();
-            chrome.storage.sync.set({userid: userid}, function() {
+        var disabled = items.disabled;
+        console.log(server);
+        console.log(disabled);
+        if (!disabled){
+            if (userid) {
                 processStrucData(userid, server);
-            });
+            } else {
+                userid = getRandomToken();
+                chrome.storage.sync.set({userid: userid}, function() {
+                    processStrucData(userid, server);
+                });
+            }
         }
     });
 
